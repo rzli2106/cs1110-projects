@@ -47,10 +47,21 @@ def test_first_inside_quotes():
 
     result = quotes.first_inside_quotes('"asdf"')
     introcs.assert_equals('asdf', result)
-    
+
+def test_replace_first():
+    """
+    This is a simple test procedure to help you understand how replace_first works
+    """
+    print('Testing function replace_first')
+    result = funcs.replace_first('crane','a','o')
+    introcs.assert_equals('crone', result)
+
+
+
 
 # SCRIPT CODE (Call Test Procedures here)
 test_asserts()
 test_has_a_vowel()
 test_first_inside_quotes()
+test_replace_first()
 print('Module funcs is working correctly')
