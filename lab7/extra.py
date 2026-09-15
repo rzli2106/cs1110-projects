@@ -24,4 +24,22 @@ def europeanize(date):
     Parameter date: the date to convert
     Precondition: date a string representing a US date.
     """
+    x = date.index('/')
+    y = date.index('/', x + 1)
+    eudate = ''
+    us_day = date[x+1:y]
+    us_month = date[0:x]
+    us_year = date[y+1:]
+
+    if len(us_day) == 1:
+        us_day = '0' + us_day
+
+    if len(us_month) == 1:
+            us_month = '0' + us_month
+
+    eudate += us_day + '/' + us_month + '/' + us_year
+    
+    return eudate
+
+    
     pass # STUB. Implement me
