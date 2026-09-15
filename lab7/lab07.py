@@ -25,6 +25,10 @@ def remove_starting_vowel(w):
     Parameter w: the word to check
     Precondition: w is a nonempty string with only lowercase letters
     """
+    if 'a' in w[0] or 'e' in w[0] or 'i' in w[0] or 'o' in w[0] or 'u' in w[0]:
+        return w[1:]
+
+    return w
     pass # STUB. Implement me
 
 
@@ -37,6 +41,16 @@ def pigify(w):
     Parameter w: the word to change to Pig Latin
     Precondition: w is a nonempty string with only lowercase letters
     """
+    
+    if 'a' in w[0] or 'e' in w[0] or 'i' in w[0] or 'o' in w[0] or 'u' in w[0]:
+        return w + 'hay'
+    elif 'q' in w[0] and 'u' in w[1]: # apparently there is an assumption that if it starts with q will followed by qu
+        return w[2:] + 'quay'
+    elif first_vowel(w) != -1:
+        i = first_vowel(w)
+        return w[i:] + w[:i] + 'ay'
+    else:
+        return w + 'ay'
     pass # STUB. Implement me
 
 
