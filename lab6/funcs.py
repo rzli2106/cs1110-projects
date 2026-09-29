@@ -41,8 +41,12 @@ def replace_first(word,a,b):
     Parameter b: The substring to use in place of a
     Precondition: b is a string
     """
-    pos = word.rfind(a)
+    pos = word.find(a)
+    #print(pos)
     before = word[:pos]
-    after  = word[pos+1:]
+    #print(before)
+    after  = word[pos+len(a):]
+    #print(after)
     result = before+b+after
+    #print(result)
     return result
