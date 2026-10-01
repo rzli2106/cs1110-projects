@@ -263,7 +263,21 @@ def contrast_value(value,contrast):
     Parameter contrast: the contrast amount (0.5 is no contrast)
     Precondition: contrast is a float in 0..1
     """
-    pass
+    m = 2 * contrast - 1 
+    if contrast == 1:
+        if value >= 0.5:
+            y = 1
+        else:
+            y = 0
+        return y
+    if value < 0.25 + 0.25 * m:
+        y = (1-m) * (value) / (1+m)
+    elif value > 0.75 - 0.25 * m:
+        y = (1-m) * (value - (3-m)/4) / (1+m) + ((3+m)/4)
+    else: 
+        y = (1+m) * (value - (1+m)/4) / (1-m) + ((1-m)/4)
+
+    return y
 
 
 def contrast_rgb(rgb,contrast):
@@ -279,4 +293,11 @@ def contrast_rgb(rgb,contrast):
     Parameter contrast: the contrast amount (0.5 is no contrast)
     Precondition: contrast is a float in 0..1
     """
+    r, g, b = rgb.red / 255, rgb.green / 255, rgb.blue / 255
+    r, g, b = contrast_value(r, contrast), contrast_value(g, contrast), contrast_value(b, contrast)
+    r, g, b = r * 255, g * 255, b * 255
+    r, g, b = round(r), round(g), round(b)
+    rgb.red, rgb.green, rgb.blue = r, g, b
+    
+
     pass

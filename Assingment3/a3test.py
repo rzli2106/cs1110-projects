@@ -358,6 +358,6 @@ if __name__ == '__main__':
     test_cmyk_to_rgb()
     test_rgb_to_hsl()
     test_hsl_to_rgb()
-    #test_contrast_value()
-    #test_contrast_rgb()
+    test_contrast_value()
+    test_contrast_rgb()
     print('Module a3 passed all tests.')
