@@ -109,4 +109,17 @@ def prefix(s):
     
     Precondition: s is a (possibly empty) string of lowercase letters
     """
-    return ''   # Stub return.  Replace this.
+    if len(s) == 0:
+        return 0
+
+    if len(s) == 1:
+        return 1
+
+    if s[0] == s[1]:
+        total = 1
+        return total + prefix(s[1:])
+
+    else:
+        return 1
+
+    
