@@ -63,7 +63,16 @@ def numberof(thelist, v):
     Precondition: v is an int
     """
     # HINT: Divide and conquer only applies to one of the arguments, not both
-    return 0    # Stub return.  Replace this.
+    if len(thelist) == 0:
+        return 0
+    
+    if thelist[0] == v:
+        total = 1
+    else:
+        total = 0
+
+    return total + numberof(thelist[1:], v)
+        
 
 
 def number_not(thelist, v):
