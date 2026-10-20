@@ -85,7 +85,13 @@ def number_not(thelist, v):
     Parameter v: the value to search for
     Precondition: v is an int
     """
-    return 0    # Stub return.  Replace this.
+    if len(thelist) == 0:
+        return 0
+    if thelist[0] == v:
+        total = 0
+    else:
+        total = 1
+    return total + number_not(thelist[1:], v)
 
 
 def prefix(s):
