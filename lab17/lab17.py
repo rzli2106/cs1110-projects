@@ -30,7 +30,15 @@ def row_sums(table):
     (1) table is a nested 2D list in row-major order, (2) each row contains
     only numbers, and (3) each row is the same length.
     """
-    pass # Implement me
+    result = []
+    for list in table:
+        sum = 0
+        for i in range(len(list)):
+            sum += list[i]
+        result.append(sum)
+
+    return result
+
 
 
 def place_sums(table):
@@ -60,7 +68,15 @@ def place_sums(table):
     contains strings (the headers) (3) each row after the first contains only
     numbers, and (4) each row is the same length.
     """
-    pass # Implement me
+    
+    table[0].append('Sum')
+    for row in table[1:]:
+        sum = 0
+        for x in row:
+            sum = sum + x
+        row.append(sum)
+    
+        
 
 
 def letter_grades(adict):
