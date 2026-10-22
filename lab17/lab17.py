@@ -73,7 +73,7 @@ def place_sums(table):
     for row in table[1:]:
         sum = 0
         for x in row:
-            sum = sum + x
+            sum += x
         row.append(sum)
     
         
