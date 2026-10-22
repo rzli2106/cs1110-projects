@@ -95,9 +95,20 @@ def letter_grades(adict):
     Parameter adict: the dictionary of grades
     Precondition: adict is a dictionary with string keys, int values
     """
-    # HINT: You will need a dictionary that acts as an accumulator
-    # Start with result = {}.  Then add to this dictionary.
-    pass # Implement me
+    result = {}
+    for netid in adict:
+        grade = adict[netid]
+        if grade >= 90:
+            result[netid] = 'A'
+        elif grade >= 80:
+            result[netid] = 'B'
+        elif grade >= 70:
+            result[netid] = 'C'
+        elif grade >= 60:
+            result[netid] = 'D'
+        else:
+            result[netid] = 'F'
+    return result
 
 
 ### OPTIONAL EXERCISES ###
