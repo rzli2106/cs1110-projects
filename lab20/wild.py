@@ -120,10 +120,12 @@ class WildCard(card.Card):
         Precondition: code is a 2-char string that is either 'WC' or has
         code[0] in 'A23456789TJQK' and code[1] in 'CDHS'
         """
-        # IMPORTANT: Check the code BEFORE calling the parent initializer
-        # If it is WC, pass 'AS' as the code to the parent initializer
-        # DO YOU NEED TO ASSERT PRECONDITIONS?
-        pass  # TODO: implement me, according to my spec
+        if code == 'WC':
+            super().__init__(code='AS')
+            self.setWild(True)
+        else:
+            super().__init__(suit, rank, code)
+            self.setWild(False)
     
     def __str__(self):
         """
