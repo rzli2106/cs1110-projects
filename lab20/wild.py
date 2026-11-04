@@ -10,7 +10,7 @@ from functools import total_ordering  # for implementing comparisons in Python3
 import card
 
 
-class WildCard(Card):
+class WildCard(card.Card):
     """
     A class to represent a deck of cards with jokers.
     
@@ -37,7 +37,7 @@ class WildCard(Card):
         """
         Returns True if this a Joker or wild card.
         """
-        pass  # TODO: implement me, according to my spec
+        return self._wild
 
     def setWild(self, value):
         """
@@ -49,7 +49,9 @@ class WildCard(Card):
         Parameter value: Whether this is a Joker or wild card.
         Precondition: value is a bool
         """
+        assert type(value) == bool
         # ASSERT THE PRECONDITIONS (BEST YOU CAN)
+        self._wild = value
         pass  # TODO: implement me, according to my spec
 
     # This is a DERIVED attribute (it is a combination of suit and rank)
