@@ -202,22 +202,23 @@ def draw_triangle(t, s, c):
     Parameter c: The triangle color
     Precondition: c is a valid turtle color (see the helper function above)
     """
-    # Assert the preconditions
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
     assert is_valid_length(s), report_error('Invalid side length', s)
     assert is_valid_color(c), report_error('Invalid color', c)
-
-    original_color = t.color
-    original_dash = t.dash
-
+                 
+    original_turtle_color = t.color
+    original_turtle_dash = t.dash                                                          
     t.color = c
     t.dash = None
+                                    
     for side in range(3):
         t.forward(s)
         t.right(120)
-
-    t.color = original_color
-    t.dash = original_dash
+                                                         
+    t.color = original_turtle_color
+    t.dash = original_turtle_dash
+    t.flush()
 
 
 #################### TASK 2: Hexagon ####################
@@ -244,16 +245,15 @@ def draw_hex(t, s):
     Parameter s: The length of each triangle side
     Precondition: s is a valid side length (number >= 0)
     """
-    # Assert the preconditions
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
     assert is_valid_length(s), report_error('Invalid side length', s)
 
-    for triangle in range(6):
+    for current_triangle_number in range(6):
         draw_triangle(t, s, 'cyan')
         t.left(60)
 
-
-
+    t.flush()
 
 #################### Task 3: Radiating Shapes ####################
 
@@ -338,14 +338,22 @@ def draw_spiral(w, side, ang, n, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_length(side), report_error('side is not a valid length',side)
     assert is_valid_iteration(n), report_error('n is not a valid number of iterations',n)
-    assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # HINT: Remember to flush at the end for speed 0
-    pass
+    assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)                                        
+    assert is_number(ang), report_error('ang is not a number',ang)
+  
+    w.clear()
+    drawing_turtle = Turtle(w)
+    drawing_turtle.heading = 90
+    drawing_turtle.speed = sp
+
+    draw_spiral_helper(drawing_turtle, side, ang, n, sp)
+
+    drawing_turtle.visible = False
+    drawing_turtle.flush()
 
 
 def draw_spiral_helper(t, side, ang, n, sp):
@@ -385,14 +393,53 @@ def draw_spiral_helper(t, side, ang, n, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
     assert is_valid_length(side), report_error('side is not a valid length',side)
     assert is_valid_iteration(n), report_error('n is not a valid number of iterations',n)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
+
+    assert is_number(ang), report_error('ang is not a number',ang)
+
+    original_turtle_color = t.color
+    original_turtle_speed = t.speed
+    original_turtle_dash = t.dash
+    original_turtle_visibility = t.visible
+    original_turtle_drawmode = t.drawmode
+
+    t.speed = sp
+
+    for current_line_number in range(n):    
+        current_line_length = (current_line_number+1)*side
+
+        color_position = current_line_number % 4
+        if color_position == 0:
+            t.color = 'orange'
+        elif color_position == 1:
+            t.color = 'cyan'
+        elif color_position == 2:
+            t.color = 'red'
+        else:
+            t.color = 'blue'
+        if current_line_length >= 5:
+            whole_line_length = int(current_line_length)
+            regular_dash_length = whole_line_length//5
+   
+            final_dash_length = math.ceil(current_line_length)-4*regular_dash_length
+            t.dash = (regular_dash_length, regular_dash_length,
+                      regular_dash_length, regular_dash_length,
+                      final_dash_length)
+        else:
+            t.dash = None
+
+        t.forward(current_line_length)
+        t.right(ang)
     
-    # IMPLEMENT ME
-    pass
+    t.color = original_turtle_color
+    t.speed = original_turtle_speed
+    t.dash = original_turtle_dash
+    t.visible = original_turtle_visibility
+    t.drawmode = original_turtle_drawmode
 
 
 #################### TASK 3B: Polygon Vortex ####################
@@ -429,14 +476,25 @@ def draw_vortex(w, r1, r2, n, k, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_length(r1), report_error('r1 is not a valid length',r1)
     assert is_valid_length(r2), report_error('r2 is not a valid length',r2)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # HINT: Remember to flush at the end for speed 0
-    pass
+
+    assert r1 <= r2, report_error('r1 is greater than r2',r1)
+    assert type(n) == int and n >= 3, report_error('n is not valid',n)
+    assert type(k) == int and k >= 2, report_error('k is not valid',k)
+
+    w.clear()
+    turtle = Turtle(w)
+    turtle.heading = 270
+    turtle.speed = sp
+
+    draw_vortex_helper(turtle, r1, r2, n, k, sp)
+
+    turtle.visible = False
+    turtle.flush()
 
 
 def draw_vortex_helper(t, r1, r2, n, k, sp):
@@ -475,16 +533,52 @@ def draw_vortex_helper(t, r1, r2, n, k, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
     assert is_valid_length(r1), report_error('r1 is not a valid length',r1)
     assert is_valid_length(r2), report_error('r2 is not a valid length',r2)
-    assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # HINT: Start with a polygon of radius r1. At each step, increase the radius
-    # by (r2-r1)/(k-1), and rotate the polygon 360/k degrees
-    pass
+    assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)                                         
+    assert r1 <= r2, report_error('r1 is greater than r2',r1)
+    assert type(n) == int and n >= 3, report_error('n is not valid',n)
+    assert type(k) == int and k >= 2, report_error('k is not valid',k)
 
+    original_turtle_x = t.x
+    original_turtle_y = t.y
+    original_turtle_heading = t.heading
+    original_turtle_color = t.color
+    original_turtle_speed = t.speed
+    original_turtle_dash = t.dash
+    original_turtle_visibility = t.visible
+    original_turtle_drawmode = t.drawmode
+
+    t.speed = sp
+    t.dash = None
+
+    radius_diff = r2-r1
+    radius_increase = radius_diff(k-1)
+    angle_between_polygons = 360.0/k
+    current_polygon_radius = r1
+
+    for polygon in range(k):                              
+        color_position = polygon % 3
+        if color_position == 0:
+            t.color = 'blue'
+        elif color_position == 1:
+            t.color = 'orange'
+        else:
+            t.color = 'red'
+
+        draw_polygon(t, current_polygon_radius, n)
+        t.left(angle_between_polygons)
+        current_polygon_radius = current_polygon_radius+radius_increase
+           
+    t.move(original_turtle_x, original_turtle_y)
+    t.heading = original_turtle_heading
+    t.color = original_turtle_color
+    t.speed = original_turtle_speed
+    t.dash = original_turtle_dash
+    t.visible = original_turtle_visibility
+    t.drawmode = original_turtle_drawmode
 
 
 #################### TASK 3C: Radiating lines ####################
@@ -510,13 +604,22 @@ def radiate(w, side, n, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_length(side), report_error('side is not a valid length',side)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-   
-    # HINT: Remember to flush at the end for speed 0
-    pass
+
+    assert type(n) == int and n >= 2, report_error('n is not valid',n)
+
+    w.clear()
+    drawing_turtle = Turtle(w)
+    drawing_turtle.heading = 180
+    drawing_turtle.speed = sp
+
+    radiate_helper(drawing_turtle, side, n, sp)
+
+    drawing_turtle.visible = False
+    drawing_turtle.flush()
 
 
 def radiate_helper(t, side, n, sp):
@@ -547,21 +650,54 @@ def radiate_helper(t, side, n, sp):
     Parameter sp: The turtle speed.
     Precondition: sp is a valid turtle speed.
     """
-    # Assert the preconditions
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
     assert is_valid_length(side), report_error('side is not a valid length',side)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # Notes:
-    # 1. Drawing n lines should be done with a loop that processes
-    #    a certain range of integers.
-    # 2. You should keep the heading of the turtle in the range
-    #    0 <= heading < 360.
-    # 3. (t.heading % 360.0, 1, 0.5) is an HSL representation of the color
-    #    determined by turtle t's heading.
-    # 4. You can use an HSL object for the turtle's color attribute,
-    #    even though all the examples use strings with color names
-    pass
+    assert type(n) == int and n >= 2, report_error('n is not valid',n)
+
+    original_turtle_color = t.color
+    original_turtle_speed = t.speed
+    original_turtle_dash = t.dash
+    original_turtle_stroke = t.stroke
+    original_turtle_visibility = t.visible
+    original_turtle_drawmode = t.drawmode
+
+    t.speed = sp
+    t.stroke = 2.0
+
+    if side > 3:
+        whole_line_length = math.ceil(side)
+        first_third_length = int(side//3)
+        skipped_middle_length = first_third_length
+        final_third_length = (whole_line_length-first_third_length-
+                              skipped_middle_length)
+        t.dash = (first_third_length, skipped_middle_length,
+                  final_third_length)
+    else:
+        t.dash = None
+
+    angle_between_lines = 360.0/n
+
+    for current_line_number in range(n):                                                      
+        current_heading = t.heading % 360.0
+        current_line_color = introcs.HSL(current_heading, 1.0, 0.5)
+        t.color = current_line_color
+             
+        t.forward(side)
+        t.drawmode = False
+        t.backward(side)
+        t.drawmode = original_turtle_drawmode
+
+        t.left(angle_between_lines)
+        t.heading = t.heading % 360.0
+
+    t.color = original_turtle_color
+    t.speed = original_turtle_speed
+    t.dash = original_turtle_dash
+    t.stroke = original_turtle_stroke
+    t.visible = original_turtle_visibility
+    t.drawmode = original_turtle_drawmode
 
 
 
@@ -672,12 +808,23 @@ def vicsek(w, size, d, sp):
     Parameter sp: The drawing speed.
     Precondition: sp is a valid turtle/pen speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # HINT: Remember to flush at the end for speed 0
-    pass
+  
+    assert is_valid_length(size), report_error('size is not a valid length',size)
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
+
+    w.clear()
+    drawing_pen = Pen(w)
+    drawing_pen.fillcolor = 'red'
+    drawing_pen.edgecolor = 'red'
+    drawing_pen.speed = sp
+
+    vicsek_helper(drawing_pen, 0, 0, size, d)
+
+    drawing_pen.visible = False
+    drawing_pen.flush()
 
 
 def vicsek_helper(p, x, y, size, d):
@@ -705,13 +852,27 @@ def vicsek_helper(p, x, y, size, d):
     Parameter d: The recursive depth of the fractal
     Precondition: n is a valid depth (int >= 0)
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_valid_penmode(p), report_error('Invalid pen mode', p)
-    
-    # IMPLEMENT ME
-    pass
+                      
+    assert is_number(x), report_error('x is not a valid position',x)
+    assert is_number(y), report_error('y is not a valid position',y)
+    assert is_valid_length(size), report_error('size is not a valid length',size)
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
 
+    if d == 0:
+        fill_rect(p, x, y, size, size)
+    else:                                           
+        smaller_fractal_size = size/3.0
+        distance_from_center_to_arm = smaller_fractal_size
+        next_depth = d-1
 
+        vicsek_helper(p, x, y, smaller_fractal_size, next_depth)
+                                                   
+        vicsek_helper(p, x+distance_from_center_to_arm, y, smaller_fractal_size, next_depth)
+        vicsek_helper(p, x-distance_from_center_to_arm, y, smaller_fractal_size, next_depth)
+        vicsek_helper(p, x, y+distance_from_center_to_arm, smaller_fractal_size, next_depth)
+        vicsek_helper(p, x, y-distance_from_center_to_arm, smaller_fractal_size, next_depth)
 
 #################### TASK 4B: Hexaflake ####################
 
@@ -742,13 +903,23 @@ def hexaflake(w, side, d, sp):
     Parameter sp: The drawing speed.
     Precondition: sp is a valid turtle/pen speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_length(side), report_error('side is not a valid length',side)
-    
-    # HINT: Remember to flush at the end for speed 0
-    pass
 
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
+    assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
+
+    w.clear()
+    drawing_pen = Pen(w)
+    drawing_pen.fillcolor = 'sky blue'
+    drawing_pen.edgecolor = 'gray'
+    drawing_pen.speed = sp
+
+    hexaflake_helper(drawing_pen, 0, 0, side, d)
+
+    drawing_pen.visible = False
+    drawing_pen.flush()
 
 def hexaflake_helper(p, x, y, side, d):
     """
@@ -775,11 +946,44 @@ def hexaflake_helper(p, x, y, side, d):
     Parameter d: The recursive depth of the fractal
     Precondition: n is a valid depth (int >= 0)
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_valid_penmode(p), report_error('Invalid pen mode', p)
-    
-    # IMPLEMENT ME
-    pass
+
+    assert is_number(x), report_error('x is not a valid position',x)
+    assert is_number(y), report_error('y is not a valid position',y)
+    assert is_valid_length(side), report_error('side is not a valid length',side)
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
+           
+    if d == 0:
+        fill_hex(p, x, y, side)
+    else:                                              
+        smaller_hexagon_side = side/3.0
+        distance_to_outer_hexagon = 2.0*side/3.0
+                                                      
+        horizontal_diagonal_distance = (distance_to_outer_hexagon * math.cos(math.pi/3.0))
+        vertical_diagonal_distance = (distance_to_outer_hexagon * math.sin(math.pi/3.0))
+        next_depth = d-1
+
+        right_hexagon_x = x+distance_to_outer_hexagon
+        left_hexagon_x = x-distance_to_outer_hexagon
+        upper_hexagon_y = y+vertical_diagonal_distance
+        lower_hexagon_y = y-vertical_diagonal_distance
+        right_diagonal_x = x+horizontal_diagonal_distance
+        left_diagonal_x = x-horizontal_diagonal_distance
+ 
+        fill_hex(p, x, y, smaller_hexagon_side)
+
+        hexaflake_helper(p, right_hexagon_x, y, smaller_hexagon_side, next_depth)
+
+        hexaflake_helper(p, right_diagonal_x, upper_hexagon_y, smaller_hexagon_side, next_depth)
+
+        hexaflake_helper(p, left_diagonal_x, upper_hexagon_y, smaller_hexagon_side, next_depth)
+
+        hexaflake_helper(p, left_hexagon_x, y, smaller_hexagon_side, next_depth)
+
+        hexaflake_helper(p, left_diagonal_x, lower_hexagon_y, smaller_hexagon_side, next_depth)
+
+        hexaflake_helper(p, right_diagonal_x, lower_hexagon_y, smaller_hexagon_side, next_depth)
 
 
 
@@ -812,12 +1016,33 @@ def kochflake(w, side, d, sp):
     Parameter sp: The drawing speed.
     Precondition: sp is a valid turtle/pen speed.
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_window(w), report_error('w is not a valid window',w)
     assert is_valid_speed(sp), report_error('sp is not a valid speed',sp)
-    
-    # HINT: Remember to flush at the end for speed 0
-    pass
+
+    assert is_valid_length(side), report_error('side is not a valid length',side)
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
+                                         
+    w.clear()
+    drawing_turtle = Turtle(w)
+    drawing_turtle.speed = sp
+    drawing_turtle.color = 'slate blue'
+    drawing_turtle.dash = None
+
+    triangle_height = side*math.sqrt(3)/2.0
+    triangle_inradius = triangle_height/3.0
+    starting_x_position = -side/2.0
+    starting_y_position = -triangle_inradius
+
+    drawing_turtle.move(starting_x_position, starting_y_position)
+    drawing_turtle.heading = 60
+
+    for traingle_side in range(3):
+        kochflake_edge(drawing_turtle, side, d)
+        drawing_turtle.right(120)
+
+    drawing_turtle.visible = False
+    drawing_turtle.flush()
 
 
 def kochflake_edge(t, side, d):
@@ -842,13 +1067,25 @@ def kochflake_edge(t, side, d):
     Parameter d: The recursive depth of the edge
     Precondition: n is a valid depth (int >= 0)
     """
-    # ARE THESE ALL OF THE PRECONDITIONS?
+
     assert is_valid_turtlemode(t), report_error('Invalid turtle mode', t)
-    
-    # HINT: Look closely at the picture from the instructions.
-    # Depth 0 is a straight-line, while higher depths break into three parts
-    # For depth other than 0, divide the side into thirds (but draw four segments)
-    pass
+
+    assert is_valid_length(side), report_error('side is not a valid length',side)
+    assert is_valid_depth(d), report_error('d is not a valid depth',d)
+
+    if d == 0:
+        t.forward(side)
+    else:                                        
+        smaller_edge_length = side/3.0
+        next_depth = d-1
+
+        kochflake_edge(t, smaller_edge_length, next_depth)
+        t.right(60)
+        kochflake_edge(t, smaller_edge_length, next_depth)
+        t.left(120)
+        kochflake_edge(t, smaller_edge_length, next_depth)
+        t.right(60)
+        kochflake_edge(t, smaller_edge_length, next_depth)
 
 
 ################# HSL Color Support (DO NOT TOUCH) #################
