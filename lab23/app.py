@@ -52,7 +52,8 @@ class LabApp(GameApp):
         you should not override or change). This method is called once the 
         game is running.
         """
-        pass    # Implement me
+        self._message = GLabel(text='Hello World!', font_name='CuteFrog.ttf', font_size=64, x=self.width / 2, y= self.height / 2)
+
     
     def update(self,dt):
         """
@@ -71,7 +72,7 @@ class LabApp(GameApp):
         Every single thing you want to draw in this game is a GObject. To draw a 
         GObject g, simply use the method g.draw(self.view). It is that easy!
         """
-        pass    # Implement me
+        self._message.draw(self.view)
 
 
 # Application code
